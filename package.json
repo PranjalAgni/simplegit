@@ -2,6 +2,9 @@
   "name": "simplegit",
   "module": "index.ts",
   "type": "module",
+  "bin": {
+    "simplegit": "./index.ts"
+ },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/ini": "^4.1.0"
