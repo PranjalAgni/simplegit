@@ -1,4 +1,4 @@
-import { GitRepository } from './lib/GitRepository';
+import { GitRepository } from "./lib/GitRepository";
 
 function main() {
   const dir = process.argv[2];

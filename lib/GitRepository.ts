@@ -1,6 +1,6 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import ini from 'ini';
+import fs from "node:fs";
+import path from "node:path";
+import ini from "ini";
 
 export class GitRepository {
   private worktree: string;
@@ -9,7 +9,7 @@ export class GitRepository {
 
   constructor(dirPath: string, force = false) {
     this.worktree = dirPath;
-    this.gitdir = path.join(dirPath, '.git');
+    this.gitdir = path.join(dirPath, ".git");
     this.conf = {};
 
     // Check if gitdir path is a directory
@@ -21,12 +21,12 @@ export class GitRepository {
       throw new Error(`"Not a Git repository ${dirPath}`);
     }
 
-    const cf = this.repoFile(['config']);
+    const cf = this.repoFile(["config"]);
     if (cf && fs.existsSync(cf)) {
-      const text = fs.readFileSync(cf, { encoding: 'utf-8' });
+      const text = fs.readFileSync(cf, { encoding: "utf-8" });
       this.conf = ini.parse(text);
     } else if (!force) {
-      throw new Error('Configuration file missing');
+      throw new Error("Configuration file missing");
     }
 
     if (!force) {
@@ -54,13 +54,13 @@ export class GitRepository {
       fs.mkdirSync(repo.worktree, { recursive: true });
     }
 
-    repo.repoDir(['branches'], true);
-    repo.repoDir(['objects'], true);
-    repo.repoDir(['refs', 'tags'], true);
-    repo.repoDir(['refs', 'heads'], true);
+    repo.repoDir(["branches"], true);
+    repo.repoDir(["objects"], true);
+    repo.repoDir(["refs", "tags"], true);
+    repo.repoDir(["refs", "heads"], true);
 
     //  .git/description
-    const descriptionFilePath = repo.repoFile(['description']);
+    const descriptionFilePath = repo.repoFile(["description"]);
     if (descriptionFilePath) {
       fs.writeFileSync(
         descriptionFilePath,
@@ -69,13 +69,13 @@ export class GitRepository {
     }
 
     // .git/HEAD
-    const headFilePath = repo.repoFile(['HEAD']);
+    const headFilePath = repo.repoFile(["HEAD"]);
     if (headFilePath) {
-      fs.writeFileSync(headFilePath, 'ref: refs/heads/master\n');
+      fs.writeFileSync(headFilePath, "ref: refs/heads/master\n");
     }
 
     // writing git config
-    const configFilePath = repo.repoFile(['config']);
+    const configFilePath = repo.repoFile(["config"]);
     if (configFilePath) {
       repo.setRepoDefaultConfig();
       const text = ini.stringify(repo.conf);
@@ -123,14 +123,14 @@ export class GitRepository {
 
   // repository default config to be stored in .git/config
   private setRepoDefaultConfig() {
-    Object.defineProperty(this.conf, 'core', {
+    Object.defineProperty(this.conf, "core", {
       value: {
-        repositoryformatversion: '0',
-        filemode: 'false',
-        bare: 'false',
+        repositoryformatversion: "0",
+        filemode: "false",
+        bare: "false"
       },
       writable: true,
-      enumerable: true,
+      enumerable: true
     });
   }
 }
