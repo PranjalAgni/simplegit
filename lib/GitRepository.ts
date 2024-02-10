@@ -118,7 +118,7 @@ export class GitRepository {
     For example, repoFile(r, \"refs\", \"remotes\", \"origin\", \"HEAD\") will create
     .git/refs/remotes/origin.
   */
-  private repoFile(filePath: string[], mkdir = false): string | null {
+  public repoFile(filePath: string[], mkdir = false): string | null {
     const dirPath = this.repoDir(filePath.slice(0, -1), mkdir);
     if (dirPath) {
       return this.repoPath(filePath);
