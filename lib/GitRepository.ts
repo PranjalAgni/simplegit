@@ -85,6 +85,30 @@ export class GitRepository {
     return repo;
   }
 
+  static repoFind(dirPath = ".", required = true): GitRepository | null {
+    dirPath = fs.realpathSync(dirPath);
+    const gitDir = path.join(dirPath, ".git");
+    if (fs.statSync(gitDir).isDirectory()) {
+      return new GitRepository(dirPath);
+    }
+
+    // If we haven't returned, recurse in parent, if w
+    const parent = fs.realpathSync(path.join(dirPath, ".."));
+
+    if (parent === dirPath) {
+      // Base case
+      // path.join("/", "..") == "/":
+      // If parent == path, then path is root.
+      if (required) {
+        throw new Error("No git directory.");
+      } else {
+        return null;
+      }
+    }
+
+    return GitRepository.repoFind(parent, required);
+  }
+
   // Compute path under repo's gitdir
   private repoPath(dirPath: string[]): string {
     return path.join(this.gitdir, ...dirPath);
