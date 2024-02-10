@@ -26,13 +26,14 @@ Important files where our internal git data gets stored
 
 ## Understanding Git object storage system
 
-1. Git storage format - It uses SHA-1 hash!!!
-<header><ascii_space><size_of_object_in_bytes><null_byte_0x00><content>
+1.  Git storage format - It uses SHA-1 hash!!!
 
-header - specifies the type (blob, commit, tag or tree)
-ascii_space - ASCII space (0x20)
-size_of_object_in_bytes - size of the content stored in the object
-null_byte_0x00 - Null byte 0x00
-content - contents of object
+    `<header><ascii_space><size_of_object_in_bytes><null_byte_0x00><content>`
 
-Checkout `playground/zlib.ts` if you provide it any valid `.git/objects/<hash>/<hash>` location it will fetch the content from the hash it's really cool
+        header - specifies the type (blob, commit, tag or tree)
+        ascii_space - ASCII space (0x20)
+        size_of_object_in_bytes - size of the content stored in the object
+        null_byte_0x00 - Null byte 0x00
+        content - contents of object
+
+    Fun tip 💡: Checkout `playground/zlib.ts` if you provide it any valid `.git/objects/<hash>/<hash>` location it will fetch the content from the hash it's really cool
