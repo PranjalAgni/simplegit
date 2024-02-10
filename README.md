@@ -1,5 +1,7 @@
 # simplegit
 
+simplegit is git reimplementation from bottom-up
+
 To install dependencies:
 
 ```bash
