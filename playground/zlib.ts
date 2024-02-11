@@ -8,10 +8,11 @@ import path from "node:path";
 const gitObjectFile = path.join(
   __dirname,
   "..",
+  "testgit",
   ".git",
   "objects",
-  "01",
-  "b8c673f24455a2292c851cb49ca8982906f119"
+  "00",
+  "07ece1de12f36989948af180cd497fac012c81"
 );
 
 const content = fs.readFileSync(gitObjectFile);
