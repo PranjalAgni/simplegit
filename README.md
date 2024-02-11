@@ -9,10 +9,18 @@ To install dependencies:
 bun install
 ```
 
-To run:
+Link the Bun CLI:
 
 ```bash
-bun run index.ts
+bun link
+bun link simplegit
+```
+
+Now just run :rocket:
+
+```bash
+simplegit
+simplegit init testgit
 ```
 
 ## Understanding and building simple git
