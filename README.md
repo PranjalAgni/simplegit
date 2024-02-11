@@ -1,6 +1,7 @@
 # simplegit
 
 simplegit is git reimplementation from bottom-up
+<img width="1017" alt="image" src="https://github.com/PranjalAgni/simplegit/assets/26196076/c816b0ea-f00f-4b13-8622-4f118fe1c19a">
 
 To install dependencies:
 
