@@ -1,17 +1,18 @@
 import { GitObject } from "./GitObject";
 
 export class GitCommit extends GitObject {
-  private readonly format = "commit";
-  private commitData: string = "";
-  constructor(content: string) {
+  public readonly format = "commit";
+  private commitData: Buffer = Buffer.from("");
+  constructor(content: Buffer) {
     super(content);
+    this.deserialize(content);
   }
 
   public serialize() {
     return this.commitData;
   }
 
-  public deserialize(data: string): void {
+  public deserialize(data: Buffer): void {
     this.commitData = data;
   }
 }

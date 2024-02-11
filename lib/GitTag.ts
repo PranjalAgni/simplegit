@@ -1,17 +1,18 @@
 import { GitObject } from "./GitObject";
 
 export class GitTag extends GitObject {
-  private readonly format = "tag";
-  private tagData: string = "";
-  constructor(content: string) {
+  public readonly format = "tag";
+  private tagData: Buffer = Buffer.from("");
+  constructor(content: Buffer) {
     super(content);
+    this.deserialize(content);
   }
 
   public serialize() {
     return this.tagData;
   }
 
-  public deserialize(data: string): void {
+  public deserialize(data: Buffer): void {
     this.tagData = data;
   }
 }

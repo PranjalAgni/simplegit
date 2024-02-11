@@ -1,17 +1,18 @@
 import { GitObject } from "./GitObject";
 
 export class GitTree extends GitObject {
-  private readonly format = "tree";
-  private treeData: string = "";
-  constructor(content: string) {
+  public readonly format = "tree";
+  private treeData: Buffer = Buffer.from("");
+  constructor(content: Buffer) {
     super(content);
+    this.deserialize(content);
   }
 
   public serialize() {
     return this.treeData;
   }
 
-  public deserialize(data: string): void {
+  public deserialize(data: Buffer): void {
     this.treeData = data;
   }
 }
