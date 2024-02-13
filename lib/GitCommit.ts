@@ -1,5 +1,6 @@
 import { GitObject } from "./GitObject";
 
+// add kvlm parser logic
 export class GitCommit extends GitObject {
   public readonly format = "commit";
   private commitData: Buffer = Buffer.from("");
