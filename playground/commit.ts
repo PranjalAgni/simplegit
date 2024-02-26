@@ -3,6 +3,7 @@ function extract(rawLine: string, start: number, end: number) {
 }
 
 export function kvlmParser(raw: string) {
+  // As we know these are the possible keys in the commit message format
   const possibleKeys = ["tree", "parent", "author", "committer", "gpgsig"];
 
   const commitByLine = raw.split("\n");
@@ -10,7 +11,6 @@ export function kvlmParser(raw: string) {
   console.log("Lines in this commit message: ", numLines);
   const map = new Map<string, string>();
   let currentLine = 0;
-  let isFirstRun = true;
   let currentKey = "";
   while (currentLine < numLines) {
     const line = commitByLine.at(currentLine) as string;
@@ -23,9 +23,15 @@ export function kvlmParser(raw: string) {
       map.set(key, value);
     } else {
       if (!currentKey) throw new Error("Key is null while parsing");
-      let value = map.get(currentKey) as string;
-      value += "\n" + line;
-      map.set(currentKey, value);
+      if (line.startsWith(" ")) {
+        // this means its a continuation line as it starts with space
+        let value = map.get(currentKey) as string;
+        value += "\n" + line.trim();
+        map.set(currentKey, value);
+      } else if (line.length > 0) {
+        // this means its a final message which we just read to the end of file
+        map.set("msg", line);
+      }
     }
 
     currentLine += 1;
@@ -57,6 +63,6 @@ gpgsig -----BEGIN PGP SIGNATURE-----
  =lgTX
  -----END PGP SIGNATURE-----
 
-Create first draft`;
+Create first draft Create first draft Create first draft Create first draft Create first draft Create first draft Create first draft Create first draft`;
 
 kvlmParser(commit);
