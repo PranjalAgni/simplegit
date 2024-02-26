@@ -1,24 +1,38 @@
-function extractKey(rawLine: string, start: number, end: number) {
+function extract(rawLine: string, start: number, end: number) {
   return rawLine.slice(start, end);
 }
 
 export function kvlmParser(raw: string) {
-  let start = 0;
+  const possibleKeys = ["tree", "parent", "author", "committer", "gpgsig"];
+
   const commitByLine = raw.split("\n");
   const numLines = commitByLine.length;
   console.log("Lines in this commit message: ", numLines);
   const map = new Map<string, string>();
   let currentLine = 0;
+  let isFirstRun = true;
+  let currentKey = "";
   while (currentLine < numLines) {
     const line = commitByLine.at(currentLine) as string;
-    const spaceIndex = line?.indexOf(" ");
-    if (spaceIndex === -1) {
-      // this means there is no key and its a continuation line
+    const isKeyLine = possibleKeys.some((key) => line.startsWith(key));
+    if (isKeyLine) {
+      const spaceIndex = line.indexOf(" ");
+      const key = extract(line, 0, spaceIndex);
+      const value = extract(line, spaceIndex, line.length);
+      currentKey = key;
+      map.set(key, value);
     } else {
-      const key = extractKey(line, 0, spaceIndex);
-      console.log("Key: ", key);
+      if (!currentKey) throw new Error("Key is null while parsing");
+      let value = map.get(currentKey) as string;
+      value += "\n" + line;
+      map.set(currentKey, value);
     }
+
     currentLine += 1;
+  }
+
+  for (const key of possibleKeys) {
+    console.log(`${key} ${map.get(key)}`);
   }
 }
 
