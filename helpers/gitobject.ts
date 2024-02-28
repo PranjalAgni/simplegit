@@ -118,3 +118,12 @@ export function objectHash(
 
   return objectWrite(gitobjectInstance, repo);
 }
+
+export function objectFind(
+  repo: GitRepository,
+  name: string,
+  fmt = null,
+  follow = true
+) {
+  return name;
+}

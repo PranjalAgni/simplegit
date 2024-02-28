@@ -2,7 +2,8 @@
 
 import { Command, Argument, Option } from "commander";
 import { GitRepository } from "./lib/GitRepository";
-import { objectHash, objectRead } from "./helpers/gitobject";
+import { objectFind, objectHash, objectRead } from "./helpers/gitobject";
+import { logGraphviz } from "./helpers/graphviz";
 
 function setupCommands(program: Command) {
   // init command
@@ -56,6 +57,21 @@ function setupCommands(program: Command) {
       const repo = GitRepository.repoFind();
       const hash = objectHash(path, options.t, repo);
       console.log("Hash: ", hash);
+    });
+
+  // add the log command
+  program
+    .command("log")
+    .description("Display history of a given commit.")
+    .argument("[commit]", "Commit to start at.", "HEAD")
+    .action(async function (commit: string) {
+      const repo = GitRepository.repoFind();
+      if (repo) {
+        console.log("digraph wyaglog{");
+        console.log("  node[shape=rect]");
+        await logGraphviz(repo, objectFind(repo, commit), new Set());
+        console.log("}");
+      }
     });
 }
 

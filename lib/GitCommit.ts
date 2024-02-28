@@ -7,20 +7,13 @@ import { GitObject } from "./GitObject";
 export class GitCommit extends GitObject {
   public readonly format = "commit";
   private commitData: Buffer = Buffer.from("");
-  private readonly possibleKeys: string[] = [
-    "tree",
-    "parent",
-    "author",
-    "committer",
-    "gpgsig"
-  ];
 
-  private kvlm: Map<string, string>;
+  public kvlm: Map<string, string>;
 
   constructor(content: Buffer) {
     super(content);
-    this.deserialize(content);
     this.kvlm = new Map<string, string>();
+    this.deserialize(content);
   }
 
   public serialize() {
@@ -28,6 +21,13 @@ export class GitCommit extends GitObject {
   }
 
   public deserialize(data: Buffer): void {
-    this.kvlm = kvlmParser(data.toString("utf8"), this.possibleKeys);
+    const possibleKeys: string[] = [
+      "tree",
+      "parent",
+      "author",
+      "committer",
+      "gpgsig"
+    ];
+    this.kvlm = kvlmParser(data.toString("utf8"), possibleKeys);
   }
 }
