@@ -36,7 +36,7 @@ export async function logGraphviz(
   }
 
   for (const p of parentsList) {
-    const parentSha = p;
+    const parentSha = p.trim();
     console.log(`  c_${sha} -> c_${parentSha};`);
     await logGraphviz(repo, parentSha, seen);
   }
