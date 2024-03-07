@@ -1,9 +1,10 @@
 #! /usr/bin/env bun
 
 import { Command, Argument, Option } from "commander";
-import { GitRepository } from "./lib/GitRepository";
-import { objectFind, objectHash, objectRead } from "./helpers/gitobject";
-import { logGraphviz } from "./helpers/graphviz";
+import { InitCommand } from "./commands/InitCommand";
+import { CatCommand } from "./commands/CatCommand";
+import { HashObjectCommand } from "./commands/HashObjectCommand";
+import { LogCommand } from "./commands/LogCommand";
 
 function setupCommands(program: Command) {
   // init command
@@ -12,8 +13,7 @@ function setupCommands(program: Command) {
     .description("Initialize a new, empty repository.")
     .argument("[path]", "Where to create the repository.", "testgit")
     .action(function (path: string) {
-      GitRepository.repoCreate(path);
-      console.log("Repository created");
+      InitCommand.getInstance().execute(path);
     });
 
   // cat-file command
@@ -32,9 +32,7 @@ function setupCommands(program: Command) {
       new Argument("object", "The object hash to display content from")
     )
     .action(async function (type: string, object: string) {
-      const repository = GitRepository.repoFind()!;
-      const obj = (await objectRead(repository, object))!;
-      console.log(obj.serialize().toString("utf8"));
+      await CatCommand.getInstance().execute(type, object);
     });
 
   // hash-object command
@@ -54,9 +52,7 @@ function setupCommands(program: Command) {
     )
     .addArgument(new Argument("<path>", "Read object from a <file>"))
     .action(function (path: string, options: { t: string; w: boolean }) {
-      const repo = GitRepository.repoFind();
-      const hash = objectHash(path, options.t, repo);
-      console.log("Hash: ", hash);
+      HashObjectCommand.getInstance().execute(path, options);
     });
 
   // add the log command
@@ -65,13 +61,7 @@ function setupCommands(program: Command) {
     .description("Display history of a given commit.")
     .argument("[commit]", "Commit to start at.", "HEAD")
     .action(async function (commit: string) {
-      const repo = GitRepository.repoFind();
-      if (repo) {
-        console.log("digraph wyaglog{");
-        console.log("  node[shape=rect]");
-        await logGraphviz(repo, objectFind(repo, commit), new Set());
-        console.log("}");
-      }
+      await LogCommand.getInstance().execute(commit);
     });
 }
 
