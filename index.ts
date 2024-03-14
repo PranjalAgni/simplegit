@@ -5,6 +5,7 @@ import { InitCommand } from "./commands/InitCommand";
 import { CatCommand } from "./commands/CatCommand";
 import { HashObjectCommand } from "./commands/HashObjectCommand";
 import { LogCommand } from "./commands/LogCommand";
+import { GitListTreeCommand } from "./commands/GitListTreeCommand";
 
 function setupCommands(program: Command) {
   // init command
@@ -62,6 +63,18 @@ function setupCommands(program: Command) {
     .argument("[commit]", "Commit to start at.", "HEAD")
     .action(async function (commit: string) {
       await LogCommand.getInstance().execute(commit);
+    });
+
+  // ls-tree tree command
+  program
+    .command("ls-tree")
+    .description("Recurse into sub-trees")
+    .addOption(
+      new Option("-r [recursive]", "Recurse into sub-trees").default(false)
+    )
+    .argument("<tree>", "A tree-ish object.")
+    .action(async function (tree: string, options: { r: boolean }) {
+      await GitListTreeCommand.getInstance().execute(tree, options);
     });
 }
 
