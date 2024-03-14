@@ -57,12 +57,12 @@ Important files where our internal git data gets stored
 
 1.  Format of commits history:
 
-        ```
-        tree 29ff16c9c14e2652b22f8b78bb08a5a07930c147
-        parent 206941306e8a8af65b66eaaaea388a7ae24d49a0
-        author Thibault Polge <thibault@thb.lt> 1527025023 +0200
-        committer Thibault Polge <thibault@thb.lt> 1527025044 +0200
-        gpgsig -----BEGIN PGP SIGNATURE-----
+    ```
+    tree 29ff16c9c14e2652b22f8b78bb08a5a07930c147
+    parent 206941306e8a8af65b66eaaaea388a7ae24d49a0
+    author Thibault Polge <thibault@thb.lt> 1527025023 +0200
+    committer Thibault Polge <thibault@thb.lt> 1527025044 +0200
+    gpgsig -----BEGIN PGP SIGNATURE-----
 
         iQIzBAABCAAdFiEExwXquOM8bWb4Q2zVGxM2FxoLkGQFAlsEjZQACgkQGxM2FxoL
         kGQdcBAAqPP+ln4nGDd2gETXjvOpOxLzIMEw4A9gU6CzWzm+oB8mEIKyaH0UFIPh
@@ -80,7 +80,9 @@ Important files where our internal git data gets stored
         -----END PGP SIGNATURE-----
 
         Create first draft
-        ```
+    ```
+
+    ##### [Example commit format](/commit.md)
 
 - tree - A tree maps blobs IDs to filesystem locations, and descibes a state of the work tree. Put simply, it is the actual content of the commit: file contents, and where they go
 
