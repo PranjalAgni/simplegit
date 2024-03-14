@@ -16,12 +16,18 @@ bun link
 bun link simplegit
 ```
 
-Now just run :rocket:
+Now just run 🚀
 
 ```bash
 simplegit
 simplegit init testgit
+simplegit cat-file blob <blob_sha>
+simplegit hash-object <file_path>
+simplegit log <valid_sha>
+simplegit ls-tree <valid_sha>
 ```
+
+##### **Note**: To get any sha just run `git log` on any git repo and you can plug it in simplegit commands💡
 
 ## Understanding and building simple git
 
@@ -85,3 +91,17 @@ Important files where our internal git data gets stored
 - gpgsig - is the PGP signature of this object
 
 Checkout `playground/commit.ts` to checkout the basic parser for this
+
+2. Reading commit data
+
+   Understaning Trees format:
+
+   ```
+   [mode] space [path] 0x00 [sha-1]
+   ```
+
+   - mode = upto 6 bytes and is an octal representation of a file mode (Buffer)
+   - space = space character (32 ASCII)
+   - path = its a single filesystem entry
+   - 0X00 = null character (Buffer)
+   - sha1 = object sha in binary encoding (Buffer)
