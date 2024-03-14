@@ -8,7 +8,6 @@ export function kvlmParser(raw: string) {
 
   const commitByLine = raw.split("\n");
   const numLines = commitByLine.length;
-  console.log("Lines in this commit message: ", numLines);
   const map = new Map<string, string>();
   let currentLine = 0;
   let currentKey = "";
@@ -37,9 +36,20 @@ export function kvlmParser(raw: string) {
     currentLine += 1;
   }
 
-  for (const key of possibleKeys) {
-    console.log(`${key} ${map.get(key)}`);
+  console.log(kvlmSerialize(map));
+  return map;
+}
+
+export function kvlmSerialize(kvlm: Map<string, string>) {
+  let result = "";
+  for (const key of kvlm.keys()) {
+    if (key === "msg") continue;
+    const value = kvlm.get(key) as string;
+    result += key + " " + value?.replace("\n", "\n ") + "\n";
   }
+
+  result += "\n" + kvlm.get("msg") + "\n";
+  return result;
 }
 
 const commit = `tree 29ff16c9c14e2652b22f8b78bb08a5a07930c147
