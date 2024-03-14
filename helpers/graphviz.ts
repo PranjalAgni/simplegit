@@ -1,3 +1,4 @@
+import * as emoji from "node-emoji";
 import type { GitCommit } from "../lib/GitCommit";
 import type { GitRepository } from "../lib/GitRepository";
 import { objectRead } from "./gitobject";
@@ -19,6 +20,8 @@ export async function logGraphviz(
   if (message.includes("\n")) {
     message = message.substring(0, message.indexOf("\n"));
   }
+  // emojifying message
+  message = emoji.emojify(message);
   console.log(`  c_${sha} [label="${sha.substring(0, 7)}: ${message}"]`);
   if (commit.format.toString() !== "commit") {
     throw new Error("Invalid commit format");

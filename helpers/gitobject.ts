@@ -122,7 +122,7 @@ export function objectHash(
 export function objectFind(
   repo: GitRepository,
   name: string,
-  fmt = null,
+  fmt: string | null = null,
   follow = true
 ) {
   return name;
